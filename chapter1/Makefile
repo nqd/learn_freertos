@@ -1,4 +1,4 @@
-TREEROOT = ../../freertos_linux_devl
+TREEROOT = ../freertos_linux_devl
 
 PROJECT_SRC = create_task.c
 

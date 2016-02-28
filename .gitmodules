@@ -1,0 +1,3 @@
+[submodule "freertos_linux_devl"]
+	path = freertos_linux_devl
+	url = https://github.com/nqd/freertos_linux_devl.git

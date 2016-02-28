@@ -24,41 +24,34 @@
 #include "recmutex.h"
 #include "semtest.h"
 
-static void vTask1(void *pvParameters);
-static void vTask2(void *pvParameters);
+static void vTask(void *pvParameters);
 
 void vApplicationIdleHook( void );
 
-
 #define mainTASK1_PRIORITY       (tskIDLE_PRIORITY + 1)
+#define mainTASK2_PRIORITY       (tskIDLE_PRIORITY + 2)
+
 #define mainTASK1_STACK_SIZE        ((unsigned short) 2048)
 
+#define mainDELAY_LOOP_COUNT      10000000
 
-static void vTask1(void *pvParameters)
+const char *pcTextForTask1 = "Task 1 is running\n";
+const char *pcTextForTask2 = "Task 2 is running\n";
+
+static void vTask(void *pvParameters)
 {
-    const char *pcTaskName = "Task1 is running\r\n";
-
-    // get rid of unused parameter warning
-    (void) pvParameters;
+    char *pcTaskname = (char *)pvParameters;
 
     for (;;) {
-        vDisplayMessage(pcTaskName);
+        vDisplayMessage(pcTaskname);
 
         vTaskDelay(1000 / portTICK_RATE_MS);
-    }
-}
-
-static void vTask2(void *pvParameters)
-{
-    const char *pcTaskName = "Task2 is running\r\n";
-
-    // get rid of unused parameter warning
-    (void)pvParameters;
-
-    for (;;) {
-        vDisplayMessage(pcTaskName);
-
-        vTaskDelay(1000 / portTICK_RATE_MS);
+        /*
+        volatile unsigned long ul;
+        for (ul=0; ul<mainDELAY_LOOP_COUNT; ul++) {
+            // do nothing
+        }
+        */
     }
 }
 
@@ -79,10 +72,10 @@ int main(void)
 
     /* create vTask1, stack 1000 words, no parameters, priority 1
      * no task handler */
-    xTaskCreate(vTask1, "Task 1", mainTASK1_STACK_SIZE, NULL, mainTASK1_PRIORITY, NULL);
+    xTaskCreate(vTask, "Task 1", mainTASK1_STACK_SIZE, (void*)pcTextForTask1, mainTASK1_PRIORITY, NULL);
 
     /* task 2 */
-    xTaskCreate(vTask2, "Task 2", mainTASK1_STACK_SIZE, NULL, mainTASK1_PRIORITY, NULL);
+    xTaskCreate(vTask, "Task 2", mainTASK1_STACK_SIZE, (void*)pcTextForTask2, mainTASK2_PRIORITY, NULL);
 
     /* start the scheduler so the tasks start executing */
     vTaskStartScheduler();

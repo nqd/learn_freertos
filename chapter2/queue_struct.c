@@ -1,29 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* freertos kernel */
 #include "FreeRTOS.h"
 #include "task.h"
 #include "croutine.h"
-#include "partest.h"
 #include "queue.h"
 
-#include "BlockQ.h"
-#include "blocktim.h"
-#include "countsem.h"
-#include "crflash.h"
-#include "crhook.h"
-#include "death.h"
-#include "dynamic.h"
+/* for print */
 #include "fileIO.h"
-#include "flop.h"
-#include "GenQTest.h"
-#include "integer.h"
-#include "mevents.h"
-#include "PollQ.h"
-#include "print.h"
-#include "QPeek.h"
-#include "recmutex.h"
-#include "semtest.h"
 
 static void vSenderTask(void *pvParameters);
 static void vReceiverTask(void *pvParameters);
@@ -113,8 +98,8 @@ void vMainQueueSendPassed( void )
 int main(void)
 {
     /* Initialise hardware and utilities. */
-    vPrintInitialise();
 
+    /* create queue */
     xQueue = xQueueCreate(mainQUEUE_SIZE, sizeof(xData));
 
     /* the queue could not be created */

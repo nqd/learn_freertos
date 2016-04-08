@@ -1,7 +1,7 @@
 TREEROOT = ../freertos_linux_devl
 
-# PROJECT_SRC = queue_transmit.c
-PROJECT_SRC = queue_struct.c
+# PROJECT_SRC = block_receiving.c
+PROJECT_SRC = block_sending.c
 
 PROJECT = queue
 
